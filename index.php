@@ -1,3 +1,45 @@
+
+trait ProductActions {
+    public function actionView($id) {
+        $pdo = new PDO("mysql:host=localhost;dbname=akhfvmxt_m4;charset=UTF8", 'akhfvmxt', 'Tp83F6');
+        $stmt = $pdo->prepare("SELECT * FROM products WHERE id = ?");
+        $stmt->execute([$id]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($result) {
+            // Вывести информацию о продукте, например, через var_dump или другой метод
+            var_dump($result);
+        } else {
+            echo "Запись не найдена";
+        }
+    }
+
+    public function actionUpdate($id) {
+        $pdo = new PDO("mysql:host=localhost;dbname=akhfvmxt_m4;charset=UTF8", 'akhfvmxt', 'Tp83F6');
+        $stmt = $pdo->prepare("UPDATE products SET title = ?, firstname = ?, mainname = ?, price = ? WHERE id = ?");
+        $stmt->execute([$this->title, $this->producerFirstName, $this->producerMainName, $this->price, $id]);
+        
+        // Можно добавить дополнительную логику при обновлении записи
+    }
+
+    public function actionDelete($id) {
+        $pdo = new PDO("mysql:host=localhost;dbname=akhfvmxt_m4;charset=UTF8", 'akhfvmxt', 'Tp83F6');
+        $stmt = $pdo->prepare("DELETE FROM products WHERE id = ?");
+        $stmt->execute([$id]);
+
+        // Можно добавить дополнительную логику при удалении записи
+    }
+
+    protected function find($id) {
+        $pdo = new PDO("mysql:host=localhost;dbname=akhfvmxt_m4;charset=UTF8", 'akhfvmxt', 'Tp83F6');
+        $stmt = $pdo->prepare("SELECT * FROM products WHERE id = ?");
+        $stmt->execute([$id]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $result;
+    }
+}
+
 <?php
 $dsn = "mysql:host=localhost;dbname=akhfvmxt_m4;charset=UTF8";
 $pdo = new PDO($dsn, 'akhfvmxt', 'Tp83F6');
